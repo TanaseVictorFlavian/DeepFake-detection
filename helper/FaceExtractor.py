@@ -3,6 +3,7 @@ import os
 import dlib
 import progressbar
 from name_creator import name_creator
+import argparse
 
 
 class FaceExtractor:
@@ -61,6 +62,7 @@ class FaceExtractor:
             reader = cv2.VideoCapture(self.video_path + file)
             num_frames = int(reader.get(cv2.CAP_PROP_FRAME_COUNT))
 
+            end_frame = num_frames if end_frame is None else end_frame
             # Face detector
             face_detector = dlib.get_frontal_face_detector()
 
@@ -112,3 +114,30 @@ class FaceExtractor:
                     # Save the face to the output directory
                     cv2.imwrite(
                         f"{self.output_path}/{name_creator(faces_counter)}.jpg", cropped_face)
+
+
+if __name__ == "__main__":
+    p = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    p.add_argument('--video_path', '-i',
+                   type=str,
+                   help='Path to the directory containing the videos')
+
+    p.add_argument('--output_path', '-o',
+                   type=str,
+                   default='.',
+                   help='Path to the directory where data is saved')
+    p.add_argument('--start_frame', '-sf',
+                   type=int,
+                   default=1,
+                   help='Indicates the frame where the face extraction starts.')
+    p.add_argument('--end_frame', '-ef',
+                   type=int,
+                   default=None,
+                   help='Indicates at which frame to stop the face extraction. \
+                   If none the script will process until the end of the video.')
+
+    args = p.parse_args()
+
+    faceExtractor = FaceExtractor(args.video_path, args.output_path)
+    faceExtractor.extract_faces(args.start_frame, args.end_frame)
