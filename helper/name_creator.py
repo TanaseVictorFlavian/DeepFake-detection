@@ -13,4 +13,3 @@ def name_creator(counter, num_samples=100000):
 
     return '0' * front_zeros + str(counter)
 
-
