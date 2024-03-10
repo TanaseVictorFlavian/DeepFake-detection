@@ -11,7 +11,6 @@ def download_videos(downloader_path, log = False):
     COMPRESSION = ["raw", "c23", "c40"]
     NUM_SAMPLES = [1, 1, 1]
     SERVER = "EU2"
-    # DOWNLOADER_PATH = "../FaceForensics/downloader/downloader.py"
 
     if not os.path.exists(OUTPUT_PATH):
         os.makedirs(OUTPUT_PATH, exist_ok=True)
