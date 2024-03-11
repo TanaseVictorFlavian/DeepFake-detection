@@ -10,6 +10,11 @@ import numpy as np
 
 class FaceExtractor:
     def __init__(self, video_path, output_path):
+        
+        # "/" at the end is aboslutely necesarry
+        if video_path[-1] != "/":
+            video_path += "/"
+        
         self.video_path = video_path
         self.output_path = output_path
         self.total_frames_captured = 0
@@ -126,12 +131,14 @@ class FaceExtractor:
 
                     # Save the face to the output directory
                     cv2.imwrite(
-                        f"{self.output_path}/{name_creator(self.total_frames_captured)}.", cropped_face)
+                        f"{self.output_path}/{name_creator(self.total_frames_captured)}.png", cropped_face)
         
 
 if __name__ == "__main__":
+
     p = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    
     p.add_argument('--video_path', '-i',
                    type=str,
                    help='Path to the directory containing the videos')
@@ -154,4 +161,5 @@ if __name__ == "__main__":
     args = p.parse_args()
 
     faceExtractor = FaceExtractor(args.video_path, args.output_path)
-    faceExtractor.extract_faces(p.num_bins, p.sample_size)
+    faceExtractor.extract_faces(args.num_bins, args.sample_size)
+    
