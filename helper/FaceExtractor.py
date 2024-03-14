@@ -61,7 +61,11 @@ class FaceExtractor:
             return
 
         # Define reader and writer
-        for file in os.listdir(self.video_path):
+        for i, file in enumerate(os.listdir(self.video_path)):
+            # Log the script progress every 50 videos
+            if i % 50 == 0:
+                print(f"Processing video {i} of {len(os.listdir(self.video_path))}")
+
             if not (file.endswith(".mp4") or file.endswith(".avi")):
                 continue
             

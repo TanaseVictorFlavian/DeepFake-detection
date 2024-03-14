@@ -23,7 +23,7 @@ def download_videos(downloader_path, log = False):
     
     # Each compression level is mapped to a number of samples
     COMPRESSION = ["c23"]
-    NUM_SAMPLES = [5]
+    NUM_SAMPLES = [100]
     SERVER = "EU2"
 
     if not os.path.exists(OUTPUT_PATH):
