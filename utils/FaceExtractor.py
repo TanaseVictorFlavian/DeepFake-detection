@@ -1,7 +1,6 @@
 import cv2
 import os
 import dlib
-import progressbar
 from name_creator import name_creator
 import argparse
 import random
