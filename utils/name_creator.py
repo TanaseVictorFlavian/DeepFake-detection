@@ -1,7 +1,8 @@
 def name_creator(counter : int , num_samples : int =100000 ):
     """
-    Function to create a name for the output file for a dataset
-
+    Function to create a name for the output file for a dataset, 
+    determines the number of zeroes in front of the generated name 
+    
     :param counter: the number of the current sample
     :param num_samples: the total number of samples
     

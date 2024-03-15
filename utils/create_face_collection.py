@@ -12,7 +12,7 @@ def run_downloader():
     DOWNLOADER_PATH = "../FaceForensics/downloader/downloader.py"
 
     # Run the downloader
-    os.system(f"python ./helper/Forensics_downloader.py {DOWNLOADER_PATH}")
+    os.system(f"python ./utils/Forensics_downloader.py {DOWNLOADER_PATH}")
 
 if __name__ == "__main__":
 
@@ -42,11 +42,4 @@ if __name__ == "__main__":
 
     for in_path, out_path in zip(INPUT_PATHS, OUTPUT_PATHS):
         os.system(
-            f"python ./helper/FaceExtractor.py -i {in_path} -o {out_path}")
-        # print(f"python FaceExtractor.py -i {in_path} -o {out_path}")
-
-    # for x in INPUT_PATHS:
-    #     print(x)
-
-    # for x in OUTPUT_PATHS:
-    #     print(x)
+            f"python ./utils/FaceExtractor.py -i {in_path} -o {out_path}")

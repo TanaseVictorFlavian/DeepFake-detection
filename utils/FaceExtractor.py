@@ -167,6 +167,3 @@ if __name__ == "__main__":
     faceExtractor = FaceExtractor(args.video_path, args.output_path)
     faceExtractor.extract_faces(args.num_bins, args.sample_size)
     
-    # faceExtractor = FaceExtractor("../VideoData/Forensics_pp/manipulated_sequences/FaceShifter/c23/videos/",
-    #                               "../ExtractedFaces/Forensics_pp/FaceShifter/")
-    # faceExtractor.extract_faces()
