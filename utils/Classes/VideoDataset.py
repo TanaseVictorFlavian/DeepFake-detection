@@ -15,7 +15,7 @@ class VideoDataset:
 
         in_paths = {}
         for subdir in self.subdirs:
-            in_paths[subdir] = self.in_root + self.name + "/" + subdir + "/"
+            in_paths[subdir] = self.in_root + "/" + subdir + "/"
         return in_paths
 
     def generate_out_paths(self):

@@ -1,12 +1,13 @@
 import os
-from .name_creator import name_creator
+from ..name_creator import name_creator
 import shutil
 
 class DatasetCreator:
     def __init__(self, in_pos_paths : list, 
                 in_neg_paths : list, 
                 out_pos_path : str, 
-                out_neg_path : str):   
+                out_neg_path : str,
+                Datasets : list = []):   
         """
         :param in_pos_path: Path to the input positive samples
         :param in_neg_path: Path to the input negative samples

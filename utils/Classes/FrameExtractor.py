@@ -2,7 +2,6 @@ import cv2
 import os
 import dlib
 from name_creator import name_creator
-import argparse
 import random
 import numpy as np
 
@@ -93,14 +92,17 @@ class FrameExtractor:
             # Create a list of starting points in the video to sample from
             frame_bins = np.linspace(1, num_frames, num_bins, dtype=int)
 
-            # Select only a middle section from the video
-            candidate_frame_set = list(range(frame_bins[1], frame_bins[-2] + 1))
             
 
             for _ in range(sample_size):
+
+                # Select only a middle section from the video
+                candidate_frame_set = list(range(frame_bins[2], frame_bins[-2] + 1))
+
                 # Randomly select the frame to sample
                 # Pop it from the list so it can't be sampled multiple times
-                start_frame = candidate_frame_set.pop(random.choice(candidate_frame_set))
+                start_frame = random.choice(candidate_frame_set)
+                candidate_frame_set.remove(start_frame)
 
                 # Set the starting point at the selected sampled frame
                 reader.set(cv2.CAP_PROP_POS_FRAMES, start_frame)
@@ -138,31 +140,3 @@ class FrameExtractor:
                             f"{self.output_path}/{name_creator(self.total_frames_captured)}.png", cropped_face)
 
 
-if __name__ == "__main__":
-
-    p = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-
-    p.add_argument('--video_path', '-i',
-                   type=str,
-                   help='Path to the directory containing the videos')
-
-    p.add_argument('--output_path', '-o',
-                   type=str,
-                   default='./Extracted_Faces/',
-                   help='Path to the directory where data is saved')
-
-    p.add_argument("--num_bins", '-b',
-                   type=int,
-                   default=10,
-                   help="Number of starting points in the video to sample from")
-
-    p.add_argument("--sample_size", '-s',
-                   type=int,
-                   default=10,
-                   help="Number of frames to sample from the videos")
-
-    args = p.parse_args()
-
-    faceExtractor = FrameExtractor(args.video_path, args.output_path)
-    faceExtractor.extract_faces(args.num_bins, args.sample_size)
