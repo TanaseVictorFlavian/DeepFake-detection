@@ -1,4 +1,4 @@
-def name_creator(counter : int , num_samples : int =100000 ):
+def name_creator(counter : int , num_samples : int =10000 ):
     """
     Function to create a name for the output file for a dataset, 
     determines the number of zeroes in front of the generated name 
