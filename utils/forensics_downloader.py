@@ -4,13 +4,6 @@ import argparse
 
 
 """
-@inproceedings{roessler2019faceforensicspp,
-	author = {Andreas R\"ossler and Davide Cozzolino and Luisa Verdoliva and Christian Riess and Justus Thies and Matthias Nie{\ss}ner},
-	title = {Face{F}orensics++: Learning to Detect Manipulated Facial Images},
-	booktitle= {International Conference on Computer Vision (ICCV)},
-	year = {2019}
-}
-
 This simple function automates the usage of the FaceForensics++ dataset downloader.
 More info about the downlaoder: https://github.com/ondyari/FaceForensics/blob/master/dataset/README.md
 Modifiy the parameters for your own needs.
