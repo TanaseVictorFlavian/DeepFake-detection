@@ -40,6 +40,7 @@ def train_model(model, num_epochs, train_loader,
                       f'| Loss: {loss:.4f}')
 
         model.eval()
+        
         with torch.no_grad():  # save memory during inference
             train_acc = compute_accuracy(model, train_loader, device=device)
             valid_acc = compute_accuracy(model, valid_loader, device=device)

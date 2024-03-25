@@ -188,4 +188,5 @@ def plot_confusion_matrix(conf_mat,
 
     plt.xlabel('predicted label')
     plt.ylabel('true label')
+
     return fig, ax
