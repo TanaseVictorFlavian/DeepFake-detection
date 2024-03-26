@@ -9,11 +9,12 @@ def train_model(model, num_epochs, train_loader,
                 valid_loader, test_loader, optimizer,
                 device, logging_interval=50,
                 scheduler=None,
-                scheduler_on='valid_acc'):
+                scheduler_on='valid_acc', model_name='model'):
 
     start_time = time.time()
     minibatch_loss_list, train_acc_list, valid_acc_list = [], [], []
 
+    best_acc = 0
     for epoch in range(num_epochs):
 
         model.train()
@@ -40,7 +41,7 @@ def train_model(model, num_epochs, train_loader,
                       f'| Loss: {loss:.4f}')
 
         model.eval()
-        
+
         with torch.no_grad():  # save memory during inference
             train_acc = compute_accuracy(model, train_loader, device=device)
             valid_acc = compute_accuracy(model, valid_loader, device=device)
@@ -49,6 +50,11 @@ def train_model(model, num_epochs, train_loader,
                   f'| Validation: {valid_acc :.2f}%')
             train_acc_list.append(train_acc.item())
             valid_acc_list.append(valid_acc.item())
+
+        # saving the model when we achieve the best valiation accuracy
+        if valid_acc > best_acc:
+            best_acc = valid_acc
+            torch.save(model.state_dict(), f'{model_name}.pth')
 
         elapsed = (time.time() - start_time)/60
         print(f'Time elapsed: {elapsed:.2f} min')
@@ -61,6 +67,7 @@ def train_model(model, num_epochs, train_loader,
                 scheduler.step(minibatch_loss_list[-1])
             else:
                 raise ValueError(f'Invalid `scheduler_on` choice.')
+        torch.cuda.empty_cache()
 
     elapsed = (time.time() - start_time)/60
     print(f'Total Training Time: {elapsed:.2f} min')
