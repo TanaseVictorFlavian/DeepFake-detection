@@ -17,7 +17,6 @@ def set_all_seeds(seed):
 
 
 def compute_accuracy(model, data_loader, device):
-
     with torch.no_grad():
 
         correct_pred, num_examples = 0, 0
