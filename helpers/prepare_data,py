@@ -27,5 +27,6 @@ def prepare_image(path, transforms) -> torch.tensor:
     """
     returns a single image transformed to tensor
     """
-    image = []
-    return image
+    image = Image.open(path)
+
+    return transforms(image)
