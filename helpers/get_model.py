@@ -5,7 +5,7 @@ import torch.nn as nn
 import torch
 
 
-def model_eval_setup(model_name,
+def get_model(model_name,
                      test_data_path,
                      test_csv_path,
                      ):

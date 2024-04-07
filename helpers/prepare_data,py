@@ -1,0 +1,20 @@
+from typing import List
+import torch
+from torchvision import transforms
+# from cv2 import
+
+def prepare_video() -> List[torch.tensor]:
+    """
+    returns a list of sampled images transformed to tensors
+    """
+
+    
+    images = []
+    return images
+
+def prepare_image() -> torch.tensor:
+    """
+    returns a single image transformed to tensor
+    """
+    image = []
+    return image
