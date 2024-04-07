@@ -3,7 +3,6 @@ from helpers.get_model import get_model
 from werkzeug.utils import secure_filename
 from helpers.prepare_data import prepare_image, prepare_video
 from helper.prediction import get_prediction
-from utils.Classes.FrameExtractor import FrameExtractor
 app = Flask(__name__)
 
 VIDEO_FORMATS = {'mp4', 'avi', 'mov', 'flv', 'wmv'}
