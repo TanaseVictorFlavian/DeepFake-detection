@@ -1,0 +1,12 @@
+.drop-area {
+    width: 300px;
+    height: 200px;
+    border: 2px dashed #bc6b6b;
+    border-radius: 20px;
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+}
+.drop-area:hover {
+    background-color: rgba(94, 170, 225, 0.486);
+}

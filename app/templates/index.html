@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ML Model Interface</title>
+        <!-- Link to external CSS file -->
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='css/styles.css') }}"
+        />
+    </head>
+    <body>
+        <h1>Upload Image or Video</h1>
+        <div id="drop-area">
+            <p>Drag and drop files here</p>
+            <p>or <strong>click</strong> to select files</p>
+            <!-- Corrected: Ensure the file input is correctly associated with the script -->
+            <input
+                type="file"
+                id="fileElem"
+                multiple
+                accept="image/*, video/*"
+                style="display: none"
+                onchange="handleFiles(this.files)"
+            />
+        </div>
+        <!-- Link to external JavaScript file -->
+        <script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+    </body>
+</html>
