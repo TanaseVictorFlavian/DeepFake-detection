@@ -33,3 +33,6 @@ def get_model(model_name):
                                          map_location=torch.device('cpu')))
 
         return model, img_transforms
+
+
+
