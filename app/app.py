@@ -1,8 +1,15 @@
+import os
+import sys
+
+sys.path.insert(0, 'D:\AA_Licenta\DeepFake-detection')
+
 from flask import Flask, request, render_template
 from helpers.get_model import get_model
 from werkzeug.utils import secure_filename
 from helpers.prepare_data import prepare_image, prepare_video
-from helper.prediction import get_prediction
+from helpers.prediction import get_prediction
+import torch
+
 app = Flask(__name__)
 
 VIDEO_FORMATS = {'mp4', 'avi', 'mov', 'flv', 'wmv'}
@@ -34,18 +41,26 @@ def index():
             file_path = f'{UPLOAD_FOLDER}/{filename}'
             file.save(file_path)
             
+            device = "cuda" if torch.cuda.is_available() else "cpu"
+
             model, transforms = get_model(
                 model_name="effnet_b0_pretrained",
             )
-            
-            if filename in VIDEO_FORMATS:
-                prepared_data = prepare_video(file_path, transforms)
-            else: 
-                prepared_data = prepare_image(file_path, transforms)
-            
-            deepfake, confidence = get_prediction(model, prepared_data)
 
+            prepared_data = prepare_video(file_path, transforms) if file_format in VIDEO_FORMATS \
+                            else prepare_image(file_path, transforms)
+            
+            deepfake, confidence = get_prediction(model, device, prepared_data)
+
+            return (f"Deepfake = {deepfake}, Confidence = {confidence}")
+
+            # try:
+            #     os.remove(file_path)
+            # except Exception as e:
+            #     return(f"Error deleting file: {e}")
+        
         return render_template('index.html', deepfake = deepfake, confidence = confidence)
+
     return render_template('index.html', deepfake = "n/a", confidence = "n/a")
 
 

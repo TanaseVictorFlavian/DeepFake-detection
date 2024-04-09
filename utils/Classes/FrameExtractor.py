@@ -1,7 +1,7 @@
 import cv2
 import os
 import dlib
-from name_creator import name_creator
+from utils.name_creator import name_creator
 import random
 import numpy as np
 

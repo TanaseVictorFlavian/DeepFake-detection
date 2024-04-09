@@ -1,7 +1,7 @@
 import torch
+from torch.nn.functional import softmax
 
-
-def get_prediction(model, device, *args):
+def get_prediction(model, device, data):
     """
     Returns the prediction and model's confidence in the prediction 
     For multiple images it aggregates the predictions into a single final 
@@ -11,16 +11,17 @@ def get_prediction(model, device, *args):
     model.eval()
     with torch.no_grad():
         # Receives a list of images
-        if len(args) > 1:
+        if len(data) > 1:
             confidence = None
             prediction = None
             return prediction, confidence
 
         # Means it receives a single image
         else:
-            image = args[0]
-            logits = model()
-            confidence = None
-            prediction = None
+            img_tensor = data[0].to(device)
+            logits = model(img_tensor)
+            confidence = softmax(logits, dim=1)
+            _, label = torch.max(logits, 1)
+
+            label = "False" if label.item() == 0 else "True"
             return prediction, confidence
-    return
