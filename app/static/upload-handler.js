@@ -1,11 +1,15 @@
 document
     .getElementById("fileUpload")
-    .addEventListener("submit", function (event) {
+    .addEventListener("change", function (event) {
+        document.getElementById("loader-container").style.display = "block";
+        console.log(this);
+        console.log(this.files);
         event.preventDefault(); // Prevent the default form submission
 
-        const formData = new FormData(this); // 'this' refers to the form element
-
-        fetch(this.action, {
+        var formData = new FormData();
+        formData.append("file", this.files[0]); // Append the file to the form data
+       
+        fetch("http://127.0.0.1:5000/", {
             // this.action contains the form's action attribute (URL to which the form data will be sent)
             method: "POST",
             body: formData,
@@ -27,3 +31,4 @@ document
                 alert("Error uploading file.");
             });
     });
+

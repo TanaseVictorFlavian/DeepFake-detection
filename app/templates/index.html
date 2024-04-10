@@ -1,35 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <title>Flask app</title>
-</head>
-<body>
-    <div class="container">
-        <h1 class="container-header">Deepfake detector</h1>
-        <div class="upload-area">
-            <input type="file" id="fileUpload" name="fileUpload" />
-            <label for="fileUpload" class="upload-button">Choose a file</label>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='style.css') }}"
+        />
+        <title>Flask app</title>
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="container-header">Deepfake detector</h1>
+            <div class="upload-area">
+                <input type="file" id="fileUpload" name="fileUpload" />
+                <label for="fileUpload" class="upload-button"
+                    >Choose a file</label
+                >
+                <!-- <button type="submit"> Submit </button> -->
+            </div>
+            <div class="toggle-switch">
+                <label class="switch">
+                    <input type="checkbox" />
+                    <span class="slider round"></span>
+                </label>
+                <span class="slider-text">Enable test-time augmentation</span>
+            </div>
         </div>
-        <div class="toggle-switch">
-            <label class="switch">
-                <input type="checkbox">
-                <span class="slider round"></span>
-            </label>
-            <span class="slider-text">Enable test-time augmentation</span>
+        {% if show_data %}
+        <div class="results-container">
+            <div class="results-item">
+                Deepfake: <span id="prediction">{{deepfake}}</span>
+            </div>
+            <div class="results-item">
+                Confidence: <span id="confidenceValue">{{deepfake}}</span>
+            </div>
         </div>
-    </div>
-    <div class="results-container" style="display:none;">
-      <div class="results-item">Deepfake: <span id="prediction">N/A</span></div>
-      <div class="results-item">Confidence: <span id="confidenceValue">N/A</span></div>
-    </div>
-    <div class="loader-container" style="display:none;">
-        <h2>Analyzing your file ...</h2>
-        <div class="loader"></div>
-    </div>
-    
-    <script src="{{ url_for('static', filename='upload-handler.js') }}"></script>
-</body>
+        {% endif %}
+        {% if not show_data %}
+        <div class="loader-container" style="display: none", id ="loader-container">
+            <h2>Analyzing your file ...</h2>
+            <div class="loader"></div>
+        </div>
+        {% endif %}
+        <script src="{{ url_for('static', filename='upload-handler.js') }}"></script>
+    </body>
 </html>

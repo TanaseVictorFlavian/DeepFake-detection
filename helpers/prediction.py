@@ -23,5 +23,10 @@ def get_prediction(model, device, data):
             confidence = softmax(logits, dim=1)
             _, label = torch.max(logits, 1)
 
+            print(confidence[0])
+            print(label.item())
+            print(confidence)
+            confidence = confidence[0][label.item()]
+
             label = "False" if label.item() == 0 else "True"
-            return prediction, confidence
+            return label, confidence

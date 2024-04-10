@@ -9,6 +9,7 @@ from werkzeug.utils import secure_filename
 from helpers.prepare_data import prepare_image, prepare_video
 from helpers.prediction import get_prediction
 import torch
+import time 
 
 app = Flask(__name__)
 
@@ -27,12 +28,12 @@ def is_allowed(filename) -> bool:
 def index():
     if request.method == 'POST':
         if 'file' not in request.files:
-            return render_template('index.html', result='No file part')
+            return render_template('index.html')
         
         file = request.files['file']
 
         if file.filename == '':
-            return render_template('index.html', result='No selected file')
+            return render_template('index.html')
 
         allowed, file_format = is_allowed(file.filename)
 
@@ -51,17 +52,17 @@ def index():
                             else prepare_image(file_path, transforms)
             
             deepfake, confidence = get_prediction(model, device, prepared_data)
+            time.sleep(2)
 
-            return (f"Deepfake = {deepfake}, Confidence = {confidence}")
+            # return (f"Deepfake = {deepfake}, Confidence = {confidence}")
 
             # try:
             #     os.remove(file_path)
             # except Exception as e:
             #     return(f"Error deleting file: {e}")
-        
-        return render_template('index.html', deepfake = deepfake, confidence = confidence)
+            return render_template('index.html', deepfake = deepfake, confidence = confidence, show_data = True)
 
-    return render_template('index.html', deepfake = "n/a", confidence = "n/a")
+    return render_template('index.html', deepfake = "n/a", confidence = "n/a", show_data = False)
 
 
 if __name__ == '__main__':
