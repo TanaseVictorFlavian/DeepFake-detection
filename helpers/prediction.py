@@ -1,6 +1,6 @@
 import torch
 from torch.nn.functional import softmax
-
+import numpy as np
 def get_prediction(model, device, data):
     """
     Returns the prediction and model's confidence in the prediction 
@@ -11,10 +11,21 @@ def get_prediction(model, device, data):
     model.eval()
     with torch.no_grad():
         # Receives a list of images
+        prediction_logits = np.array([])
+        prediction_scores = np.array([])
         if len(data) > 1:
-            confidence = None
-            prediction = None
-            return prediction, confidence
+            for image in data:
+                img_tensor = image.to(device)
+                logits = model(img_tensor)
+                confidence = softmax(logits, dim=1)
+                
+                prediction_logits = np.append(prediction_logits, logits)
+                prediction_scores = np.append(prediction_scores, confidence)   
+        
+            print(prediction_logits)
+            print(prediction_scores)
+            
+            return 
 
         # Means it receives a single image
         else:
@@ -22,11 +33,8 @@ def get_prediction(model, device, data):
             logits = model(img_tensor)
             confidence = softmax(logits, dim=1)
             _, label = torch.max(logits, 1)
-
-            print(confidence[0])
+            confidence = confidence[0][label.item()].item()
+            confidence = f"{confidence * 100:.2f}%"
             print(label.item())
-            print(confidence)
-            confidence = confidence[0][label.item()]
-
-            label = "False" if label.item() == 0 else "True"
+            label = "True" if label.item() == 0 else "False"
             return label, confidence

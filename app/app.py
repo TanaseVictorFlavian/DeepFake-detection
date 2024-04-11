@@ -54,12 +54,12 @@ def index():
             deepfake, confidence = get_prediction(model, device, prepared_data)
             time.sleep(2)
 
-            # return (f"Deepfake = {deepfake}, Confidence = {confidence}")
 
-            # try:
-            #     os.remove(file_path)
-            # except Exception as e:
-            #     return(f"Error deleting file: {e}")
+            try:
+                os.remove(file_path)
+                print("File Removed!")
+            except Exception as e:
+                return(f"Error deleting file: {e}")
             return render_template('index.html', deepfake = deepfake, confidence = confidence, show_data = True)
 
     return render_template('index.html', deepfake = "n/a", confidence = "n/a", show_data = False)
