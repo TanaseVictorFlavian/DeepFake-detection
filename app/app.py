@@ -11,12 +11,14 @@ from helpers.prediction import get_prediction
 import torch
 import time 
 
-app = Flask(__name__)
-
+UPLOAD_FOLDER = './uploads'
 VIDEO_FORMATS = {'mp4', 'avi', 'mov', 'flv', 'wmv'}
 IMAGE_FORMATS = {'jpg', 'jpeg', 'png', 'bmp'}
-UPLOAD_FOLDER = './uploads'
 ALLOWED_FORMATS = VIDEO_FORMATS.union(IMAGE_FORMATS)
+
+app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 
 
 def is_allowed(filename) -> bool:
@@ -39,7 +41,7 @@ def index():
 
         if file and allowed:
             filename = secure_filename(file.filename)
-            file_path = f'{UPLOAD_FOLDER}/{filename}'
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(file_path)
             
             device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -48,22 +50,27 @@ def index():
                 model_name="effnet_b0_pretrained",
             )
 
-            prepared_data = prepare_video(file_path, transforms) if file_format in VIDEO_FORMATS \
+            print(os.path.exists(UPLOAD_FOLDER))
+            prepared_data = prepare_video(UPLOAD_FOLDER, transforms) if file_format in VIDEO_FORMATS \
                             else prepare_image(file_path, transforms)
             
-            deepfake, confidence = get_prediction(model, device, prepared_data)
-            time.sleep(2)
+
+            # deepfake, confidence = get_prediction(model, device, prepared_data)
 
 
-            try:
-                os.remove(file_path)
-                print("File Removed!")
-            except Exception as e:
-                return(f"Error deleting file: {e}")
-            return render_template('index.html', deepfake = deepfake, confidence = confidence, show_data = True)
+            # try:
+            #     os.remove(file_path)
+            #     print("File Removed!")
+            # except Exception as e:
+            #     return(f"Error deleting file: {e}")
+            return "worked"
+            # return render_template('index.html', deepfake = deepfake, confidence = confidence, show_data = True)
 
     return render_template('index.html', deepfake = "n/a", confidence = "n/a", show_data = False)
 
 
 if __name__ == '__main__':
+    if not os.path.exists(UPLOAD_FOLDER):
+        os.makedirs(UPLOAD_FOLDER)
+    
     app.run(host='0.0.0.0', debug=True)

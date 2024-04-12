@@ -13,19 +13,21 @@ def get_prediction(model, device, data):
         # Receives a list of images
         prediction_logits = np.array([])
         prediction_scores = np.array([])
+
+
         if len(data) > 1:
             for image in data:
                 img_tensor = image.to(device)
                 logits = model(img_tensor)
                 confidence = softmax(logits, dim=1)
                 
-                prediction_logits = np.append(prediction_logits, logits)
-                prediction_scores = np.append(prediction_scores, confidence)   
+                prediction_logits = np.append(prediction_logits, logits.cpu())
+                prediction_scores = np.append(prediction_scores, confidence.cpu())   
         
             print(prediction_logits)
             print(prediction_scores)
             
-            return 
+            return prediction_logits, prediction_scores
 
         # Means it receives a single image
         else:
