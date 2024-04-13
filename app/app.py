@@ -67,7 +67,7 @@ def index():
                 return(f"Error deleting file: {e}")
             return render_template('index.html', deepfake = deepfake, confidence = confidence, show_data = True)
 
-    return render_template('index.html', deepfake = "n/a", confidence = "n/a", show_data = False)
+    return render_template('index.html', show_data = False)
 
 
 if __name__ == '__main__':
