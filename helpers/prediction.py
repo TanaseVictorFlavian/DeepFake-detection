@@ -11,8 +11,8 @@ def get_prediction(model, device, data):
     model.eval()
     with torch.no_grad():
         # Receives a list of images
-        prediction_logits = np.array([])
-        prediction_scores = np.array([])
+        prediction_logits = []
+        prediction_scores = []
 
 
         if len(data) > 1:
@@ -21,13 +21,23 @@ def get_prediction(model, device, data):
                 logits = model(img_tensor)
                 confidence = softmax(logits, dim=1)
                 
-                prediction_logits = np.append(prediction_logits, logits.cpu())
-                prediction_scores = np.append(prediction_scores, confidence.cpu())   
-        
-            print(prediction_logits)
-            print(prediction_scores)
+                prediction_logits.append(logits.detach().cpu().tolist())
+                prediction_scores.append(confidence.detach().cpu().tolist())  
             
-            return prediction_logits, prediction_scores
+            prediction_logits = np.array([item for sublist1 in prediction_logits for sublist2 in sublist1 for item in sublist2])
+            prediction_scores = np.array([item for sublist1 in prediction_scores for sublist2 in sublist1 for item in sublist2])
+
+            prediction_logits = prediction_logits.reshape(len(data), 2)
+            prediction_scores = prediction_scores.reshape(len(data), 2)
+
+            avg_logits = np.mean(prediction_logits, axis=0)
+            avg_scores = np.mean(prediction_scores, axis=0)
+
+            label = np.argmax(avg_logits)
+            confidence = f"{avg_scores[label] *100:.2f}%"
+            label = "True" if label == 0 else "False"
+            print(label)
+            print(confidence)
 
         # Means it receives a single image
         else:
@@ -37,6 +47,6 @@ def get_prediction(model, device, data):
             _, label = torch.max(logits, 1)
             confidence = confidence[0][label.item()].item()
             confidence = f"{confidence * 100:.2f}%"
-            print(label.item())
             label = "True" if label.item() == 0 else "False"
-            return label, confidence
+
+    return label, confidence
