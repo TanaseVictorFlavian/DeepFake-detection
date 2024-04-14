@@ -29,9 +29,10 @@ def is_allowed(filename) -> bool:
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
+        x = request.form.get('aug', False)
+        print(x)
         if 'file' not in request.files:
             return render_template('index.html')
-        
         file = request.files['file']
 
         if file.filename == '':
