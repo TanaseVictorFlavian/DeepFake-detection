@@ -29,8 +29,7 @@ def is_allowed(filename) -> bool:
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        x = request.form.get('aug', False)
-        print(x)
+        tta_enabled = request.form.get('aug', False)
         if 'file' not in request.files:
             return render_template('index.html')
         file = request.files['file']
@@ -51,9 +50,8 @@ def index():
                 model_name="effnet_b0_pretrained",
             )
 
-            print(os.path.exists(UPLOAD_FOLDER))
-            prepared_data = prepare_video(UPLOAD_FOLDER, transforms) if file_format in VIDEO_FORMATS \
-                            else prepare_image(file_path, transforms)
+            prepared_data = prepare_video(UPLOAD_FOLDER, transforms, tta_enabled) if file_format in VIDEO_FORMATS \
+                            else prepare_image(file_path, transforms, tta_enabled)
             
 
             deepfake, confidence = get_prediction(model, device, prepared_data)

@@ -2,3 +2,4 @@ data/
 helpers/__pycache__/
 notes.txt
 uploads/
+test.py
