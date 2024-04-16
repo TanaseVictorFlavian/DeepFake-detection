@@ -24,29 +24,22 @@ def get_prediction(model, device, data):
                 confidence = softmax(logits, dim=1)
                 
                 prediction_logits.append(logits.detach().cpu().tolist())
-                prediction_scores.append(confidence.detach().cpu().tolist())  
             
-            prediction_logits = np.array([item for sublist1 in prediction_logits for sublist2 in sublist1 for item in sublist2])
-            prediction_scores = np.array([item for sublist1 in prediction_scores for sublist2 in sublist1 for item in sublist2])
-
-            prediction_logits = prediction_logits.reshape(len(data), 2)
-            prediction_scores = prediction_scores.reshape(len(data), 2)
+            prediction_logits = np.array([i for l1 in prediction_logits for l2 in l1 for i in l2]).reshape(len(data), 2)
 
             avg_logits = np.mean(prediction_logits, axis=0)
-            avg_scores = np.mean(prediction_scores, axis=0)
 
-            print(avg_logits)
-            print(avg_scores)
+            logits_tensor = torch.from_numpy(avg_logits)
+            scores_tensor = softmax(logits_tensor.float(), dim=0)
+            scores = scores_tensor.numpy()
 
             predicted_class = np.argmax(avg_logits)
-            confidence = f"{avg_scores[predicted_class] *100:.2f}%" if predicted_class == 0 else f"{(1 - avg_scores[predicted_class]) *100:.2f}%"
+            confidence = f"{scores[predicted_class] *100:.2f}%"
             label = "True" if predicted_class == 0 else "False"
-            print(label)
-            print(confidence)
 
         # Means it receives a single image
         else:
-            print("I predict image")
+            print("Predicting for a single image")
             img_tensor = data[0].to(device)
             logits = model(img_tensor)
             confidence = softmax(logits, dim=1)
