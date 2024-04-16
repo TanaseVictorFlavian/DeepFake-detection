@@ -13,11 +13,11 @@ def get_prediction(model, device, data):
     model.eval()
     with torch.no_grad():
         # Receives a list of images
-        prediction_logits = []
-        prediction_scores = []
 
-
+        
         if len(data) > 1:
+            prediction_logits = []
+            
             for image in data:
                 img_cuda = image.to(device)
                 logits = model(img_cuda)
