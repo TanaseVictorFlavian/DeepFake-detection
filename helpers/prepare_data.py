@@ -37,6 +37,7 @@ def prepare_image(path, img_transforms, tta_enabled) -> torch.tensor:
     """
     image = Image.open(path)
     if tta_enabled:
+        print("TTA ENABLED")
         aug_images = tta([image], img_transforms)
         # Uncomment this code do save and show augumented images
 

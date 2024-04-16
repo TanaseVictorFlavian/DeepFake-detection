@@ -7,6 +7,8 @@ def get_prediction(model, device, data):
     For multiple images it aggregates the predictions into a single final 
     prediction
     """
+
+    print(len(data))
     model.to(device)
     model.eval()
     with torch.no_grad():
@@ -17,8 +19,8 @@ def get_prediction(model, device, data):
 
         if len(data) > 1:
             for image in data:
-                img_tensor = image.to(device)
-                logits = model(img_tensor)
+                img_cuda = image.to(device)
+                logits = model(img_cuda)
                 confidence = softmax(logits, dim=1)
                 
                 prediction_logits.append(logits.detach().cpu().tolist())
@@ -33,14 +35,18 @@ def get_prediction(model, device, data):
             avg_logits = np.mean(prediction_logits, axis=0)
             avg_scores = np.mean(prediction_scores, axis=0)
 
-            label = np.argmax(avg_logits)
-            confidence = f"{avg_scores[label] *100:.2f}%"
-            label = "True" if label == 0 else "False"
+            print(avg_logits)
+            print(avg_scores)
+
+            predicted_class = np.argmax(avg_logits)
+            confidence = f"{avg_scores[predicted_class] *100:.2f}%" if predicted_class == 0 else f"{(1 - avg_scores[predicted_class]) *100:.2f}%"
+            label = "True" if predicted_class == 0 else "False"
             print(label)
             print(confidence)
 
         # Means it receives a single image
         else:
+            print("I predict image")
             img_tensor = data[0].to(device)
             logits = model(img_tensor)
             confidence = softmax(logits, dim=1)

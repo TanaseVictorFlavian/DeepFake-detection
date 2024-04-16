@@ -29,7 +29,9 @@ def is_allowed(filename) -> bool:
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        tta_enabled = request.form.get('aug', False)
+        toggle_button = request.form.get('aug', False)
+        tta_enabled = True if toggle_button == 'true' else False
+        
         if 'file' not in request.files:
             return render_template('index.html')
         file = request.files['file']
