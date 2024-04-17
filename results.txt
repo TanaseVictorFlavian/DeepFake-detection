@@ -1,7 +1,0 @@
-resnet50_no_weights: 
-
-    BATCH_SIZE = 64
-    NUM_EPOCHS = 10
-    learning_rate = 0.001
-    optimizer = ADAM
-    test_accuracy = 51.63%
