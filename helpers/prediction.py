@@ -8,7 +8,6 @@ def get_prediction(model, device, data):
     prediction
     """
 
-    print(len(data))
     model.to(device)
     model.eval()
     with torch.no_grad():

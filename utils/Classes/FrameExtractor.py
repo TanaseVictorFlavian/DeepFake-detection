@@ -7,8 +7,13 @@ import numpy as np
 
 
 class FrameExtractor:
-    def __init__(self, video_path, output_path):
-
+    def __init__(self, video_path, output_path=None, save_samples=False):
+        """
+        Class used to extract random frames containing faces from videos.
+        :param video_path: path to the directory containing the videos
+        :param output_path: path to the directory where the extracted faces are saved
+        :param save_samples: boolean flag to decide if the extracted faces are saved
+        """
         # "/" at the end is aboslutely necesarry
         if video_path[-1] != "/":
             video_path += "/"
@@ -16,6 +21,7 @@ class FrameExtractor:
         self.video_path = video_path
         self.output_path = output_path
         self.total_frames_captured = 0
+        self.save_samples = save_samples
 
     def get_boundingbox(self, face, width, height, scale=1.5):
         """
@@ -55,6 +61,9 @@ class FrameExtractor:
         else:
             print(f"Path {self.video_path} does not exist.")
             return
+
+
+        extracted_faces = []
 
         # Define reader and writer
         for i, file in enumerate(os.listdir(self.video_path)):
@@ -136,7 +145,16 @@ class FrameExtractor:
                         cropped_face = frame[y:y+size, x:x+size]
 
                         # Save the face to the output directory
-                        cv2.imwrite(
-                            f"{self.output_path}/{name_creator(self.total_frames_captured)}.png", cropped_face)
+                        if self.save_samples:
+                            cv2.imwrite(
+                                f"{self.output_path}/{name_creator(self.total_frames_captured)}.png", cropped_face)
+                            # covnert to RGB
+                        extracted_faces.append(cv2.cvtColor(
+                            cropped_face, cv2.COLOR_BGR2RGB))
+
+
+        return extracted_faces
+
+
 
 
