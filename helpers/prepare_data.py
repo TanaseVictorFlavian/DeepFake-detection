@@ -6,6 +6,7 @@ import os
 from PIL import Image
 from torchvision.transforms import transforms
 from helpers.print_image_from_tensor import print_image_from_tensor
+from utils.Classes.SequenceExtractor import SequenceExtractor
 
 # from cv2 import
 
@@ -13,15 +14,27 @@ def prepare_video(path, transforms, tta_enabled) -> List[torch.tensor]:
     """
     returns a list of sampled images transformed to tensors
     """
-    output_path = "./uploads/frames"
+
+    image_tensors = []
+    output_path = "./uploads/frames/"
+    if tta_enabled:
+        print("TTA ENABLED")
+        # Get a list of frames at the beginning of the video
+        seq_extractor = SequenceExtractor(path, output_path)
+        sampled_frames = seq_extractor.extract_faces()
+
+        # keep only half of the frames 
+    
+        sampled_frames = [Image.fromarray(f) for i,f in enumerate(sampled_frames) if i % 2 == 0]
+        image_tensors = tta(sampled_frames, transforms)
+
     if not os.path.exists(output_path):
         os.makedirs(output_path)
     
     frame_extractor = FrameExtractor(path, output_path)
     frame_extractor.extract_faces(num_bins=5, sample_size=3)
 
-    image_tensors = []
-
+    
     for img in os.listdir(output_path):
         image = Image.open(os.path.join(output_path, img))
         image = transforms(image).unsqueeze(0)
@@ -30,7 +43,7 @@ def prepare_video(path, transforms, tta_enabled) -> List[torch.tensor]:
     return image_tensors
 
 
-def prepare_image(path, img_transforms, tta_enabled) -> torch.tensor:
+def prepare_image(path, img_transforms, tta_enabled):
     """
     returns a single image transformed to tensor 
     ready to be passed through the model
@@ -39,7 +52,8 @@ def prepare_image(path, img_transforms, tta_enabled) -> torch.tensor:
     if tta_enabled:
         print("TTA ENABLED")
         aug_images = tta([image], img_transforms)
-        # Uncomment this code do save and show augumented images
+        
+        # Uncomment this code to save and show augumented images
 
         # for i, img in enumerate(aug_images):
         #     t_image = print_image_from_tensor(img)
@@ -59,11 +73,17 @@ def tta(data, img_transforms) -> list:
         transforms.RandomSolarize(p=1.0, threshold=156),
         ]  
     # Apply augumentation for image 
+    aug_images = []
+    
     if len(data) == 1: 
         image = data.pop()
-        aug_images = []
         for t in AUGUMENTATIONS:    
             complete_transform  = lambda x : img_transforms(t(x))
             aug_images.append(complete_transform(image).unsqueeze(0))
+    
+    else:
+        for image, t in zip(data, AUGUMENTATIONS):
+            complete_transform  = lambda x : img_transforms(t(x))
+            aug_images.append(complete_transform(image).unsqueeze(0))
 
-        return aug_images
+    return aug_images

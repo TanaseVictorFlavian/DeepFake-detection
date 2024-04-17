@@ -14,7 +14,6 @@ def get_prediction(model, device, data):
     with torch.no_grad():
         # Receives a list of images
 
-        
         if len(data) > 1:
             prediction_logits = []
             
