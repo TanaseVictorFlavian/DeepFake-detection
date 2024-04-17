@@ -10,7 +10,7 @@ from utils.Classes.SequenceExtractor import SequenceExtractor
 
 # from cv2 import
 
-def prepare_video(path, transforms, tta_enabled) -> List[torch.tensor]:
+def prepare_video(path, img_transforms, tta_enabled) -> List[torch.tensor]:
     """
     returns a list of sampled images transformed to tensors
     """
@@ -26,19 +26,16 @@ def prepare_video(path, transforms, tta_enabled) -> List[torch.tensor]:
         # keep only half of the frames 
     
         sampled_frames = [Image.fromarray(f) for i,f in enumerate(sampled_frames) if i % 2 == 0]
-        image_tensors = tta(sampled_frames, transforms)
+        image_tensors = tta(sampled_frames, img_transforms)
 
     if not os.path.exists(output_path):
         os.makedirs(output_path)
     
     frame_extractor = FrameExtractor(path, output_path)
-    frame_extractor.extract_faces(num_bins=5, sample_size=3)
-
+    random_samples = frame_extractor.extract_faces(num_bins=5, sample_size=3)
     
-    for img in os.listdir(output_path):
-        image = Image.open(os.path.join(output_path, img))
-        image = transforms(image).unsqueeze(0)
-        image_tensors.append(image)
+    for s in random_samples:
+        image_tensors.append(img_transforms(Image.fromarray(s)).unsqueeze(0))
 
     return image_tensors
 
