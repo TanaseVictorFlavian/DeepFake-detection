@@ -4,3 +4,4 @@ notes.txt
 uploads/
 test.py
 venv/
+test_tta_performance.py

@@ -53,11 +53,10 @@ def index():
             )
 
             prepared_data = prepare_video(UPLOAD_FOLDER, transforms, tta_enabled) if file_format in VIDEO_FORMATS \
-                            else prepare_image(file_path, transforms, tta_enabled)
+                            else prepare_image(file_path, transforms)
             
             print(f"Number of prepared files : {len(prepared_data)}")
             deepfake, confidence = get_prediction(model, device, prepared_data)
-
 
             try:
                 if file_format in VIDEO_FORMATS:

@@ -40,47 +40,22 @@ def prepare_video(path, img_transforms, tta_enabled) -> List[torch.tensor]:
     return image_tensors
 
 
-def prepare_image(path, img_transforms, tta_enabled):
+def prepare_image(path, img_transforms):
     """
     returns a single image transformed to tensor 
     ready to be passed through the model
     """
     image = Image.open(path)
-    if tta_enabled:
-        print("TTA ENABLED")
-        aug_images = tta([image], img_transforms)
-        
-        # Uncomment this code to save and show augumented images
-
-        # for i, img in enumerate(aug_images):
-        #     t_image = print_image_from_tensor(img)
-        #     t_image.save(f"transforms_samples/aug_{i}.png")
-
-        return aug_images 
-    else:
-        return [img_transforms(image).unsqueeze(0)]
+    return [img_transforms(image).unsqueeze(0)]
 
 def tta(data, img_transforms) -> list:
-    AUGUMENTATIONS = [
-        transforms.RandomHorizontalFlip(p=1.0), 
-        transforms.RandomVerticalFlip(p=1.0),
-        transforms.ColorJitter(
-            brightness=0.2, contrast=0.2, saturation=0.2, hue=0.1),
-        transforms.RandomEqualize(p=1.0),
-        transforms.RandomSolarize(p=1.0, threshold=156),
-        ]  
-    # Apply augumentation for image 
+    t = transforms.RandomHorizontalFlip(p=0.5)
     aug_images = []
     
-    if len(data) == 1: 
-        image = data.pop()
-        for t in AUGUMENTATIONS:    
-            complete_transform  = lambda x : img_transforms(t(x))
-            aug_images.append(complete_transform(image).unsqueeze(0))
-    
-    else:
-        for image, t in zip(data, AUGUMENTATIONS):
-            complete_transform  = lambda x : img_transforms(t(x))
-            aug_images.append(complete_transform(image).unsqueeze(0))
+    complete_transform  = lambda x : img_transforms(t(x))
+    print(type(complete_transform))
+    print(type(t))
+    for image in data:
+        aug_images.append(complete_transform(image).unsqueeze(0))
 
     return aug_images
