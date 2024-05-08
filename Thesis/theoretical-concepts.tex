@@ -2,7 +2,7 @@
 
 \section{Rețele neuronale}
 
-Rețelele neuronale stau la baza tuturor algoritmilor moderni de inteligență artificială. Acestea au revoluționat industria învățării automate prin puterea lor de a simula funcțiile cognitive ale creierului uman, fiind des folosite in invățarea de tipare(în engleză pattern recognition), diferite sarcini de clasificare si predicție. 
+Rețelele neuronale stau la baza tuturor algoritmilor moderni de inteligență artificială. Acestea au revoluționat industria învățării automate prin puterea lor de a simula funcțiile cognitive ale creierului uman, fiind des folosite in invățarea de tipare(în engleză pattern recognition), diferite sarcini de clasificare si predicție. Ele pot fi văzute ca funcții complicate care primesc date de intrare sub forma unor valori numerice și returnează valori reprezentative pentru acestea. 
 
 \subsection{O scurtă istorie a rețelelor neuronale}
 
@@ -32,7 +32,73 @@ Aceste lucrări din literatură au ajutat la transformarea unor concepte pur teo
     În zona centrală a neuronului se află corpul celular(soma) care conține nucleul, locul care înmagazineaza tot materialul genetic al celulei. Legate de corpul celular sunt dendritele, care interceptează semnale chimice de la alți neuroni. Atașat de corpul celular, se află o prelungire alungită numită axon, al cărei scop este să transmită semnale electrice către alți neuroni sau către țesuturi. La capătul axonului se găsesc terminațiile acestuia, care sunt legate de dendritele sau de corpul celular ale altui neuron. 
 
     În creierul biologic, se găsesc miliarde de neuroni, fiecare având mii de legaturi cu alți neuroni aceștia fiind dipusi in straturi pentru a crea țestul nervos. Cu toate că neuronul in sine, nu funcționează intr-un mod complex, ansamblul a miliarde de mecanisme simple într-o rețea imensa are capabilități impresionante. 
-    
+
+    Plecând de la aceste premise Warren McCulloch și Walter Pitts(1943) 
+    \cite{mcculloch1943logical} au prezentat în lucrarea lor revoluționară o versiune simplificată a neuronului biologic. Aceștia au văzut neuronul artificial ca o pe poartă logică, cu mai multe intrări și o singură ieșire. Un semnal electric era transmis mai departe doar dacă neuronul avea un număr de intrări care trecea de un anumit prag, bazându-se pe principiul de totul sau nimic al neuronilor biologici.  
+
+     \begin{figure}[h]
+         \centering 
+         \includegraphics[width=.5\textwidth]{images/artificial-neurons-as-logic-gates.jpg}
+         \captionsetup{font=footnotesize}
+         \caption{Neuroni artificiali calculând operatii logice}
+         \caption*{a) Neuronul Y nu poate transmite semnalul mai departe              doar cu un singur impuls}
+         \caption*{b) Neuronul Z are nevoie de ambii neuroni X și Y pentru a trimite un semnal mai departe}
+    \end{figure}
+
+    \newpage
+
+\subsection{Perceptronul}
+
+În 1958 Frank Rosenblatt \cite{rosenblatt1958perceptron} introduce in literatură \textbf{perceptronul}, cel mai simplu model de rețea neuronală. Acesta duce neuronul artificial propus de către McCulloch și Pitts \cite{mcculloch1943logical} la un alt nivel. Comparat cu neuronul care transmitea doar semnale binare, cel propus de Rosenblatt este capabil sa proceseze și să transmită mai departe valori numerice. Scopul final este de a organiza aceste unități de calcul într-o „rețea” care primește datele de intrare sub formă numerică și returnează o valoare care le reprezintă. 
+
+Într-o astfel de rețea fiecare neuron se folosește datele de intrare pentru a produce o valoare de ieșire. Fiecărei valori de intrare îi corespunde o pondere(în engleză: weight), un număr real al cărui scop este sa controleze contribuția sa la informația transmisă mai departe de către neuron. Aceste valori sunt însumate ponderat, iar la valoarea obținută se adaugă un neuron special, care la rândul lui are o pondere. Acest neuron se numește \textit{bias}, un număr real, notat cu $b$, care elimină constângerea ca funcția ce reprezintă datele să treacă prin originea planului sau a hiperplanului. Rezultatul reprezintă o funcție care este dată ca parametru unei funcții liniare numită „funcție de pas”(in engleză: step function) pentru a produce valoarea de ieșire a perceptronului. 
+
+\begin{figure}[h]
+         \centering 
+         \includegraphics[width=.85\textwidth]{images/the-perceptron.jpg}
+         \captionsetup{font=footnotesize}
+         \caption{Perceptronul \cite{the-perecptron}}
+\end{figure}
+\newpage
+Notații:
+
+\begin{itemize}
+    \item $x = (x_1, x_2, x_3... , x_n)$ datele de intrare
+    \item $w = (w_1, w_2, w_3,..., w_n)$ ponderile corespunzătoare 
+    \item $b$ = totalitatea neuronilor de \textit{bias} 
+    \item $z$ = combinația liniară dintre $x$ si $w$
+    \item $z = w_1 x_1 + w_2 x_2 + ... + w_n x_n  = \sum_{i=1}^{n} w_i x_i + b = w^{T}x + b$
+    \item $step(z)$ = \textit{output-ul} perceptronului
+\end{itemize}
+ 
+O funcție comună folosită drept \textit{step function} este funcția semn definită astfel: 
+
+\[
+\text{sgn}(x) = 
+\begin{cases} 
+    -1 & \text{if } x < 0, \\
+    0 & \text{if } x = 0, \\
+    1 & \text{if } x > 0.
+\end{cases}
+\]    
+
+\begin{figure}[h]
+         \centering 
+         \includegraphics[width=.5\linewidth]{images/multiclass-perceptron.png}
+         \captionsetup{font=footnotesize}
+         \caption{Un perceptron capabil să separe date în mai multe clase \cite{ageron2019}}
+         \label{Figura 2.4}
+\end{figure}
+\newpage
+
+În Figura~\ref{Figura 2.4} este prezentată o arhitectură de perceptron capabilă sa distingă între 3 clase. Datele de intrare, in cazul nostru $x1$, $x2$ reprezintă \textit{stratul de intrare}. Fiecare valoare din stratul de intrare este legată de toți neuronii din stratul urmator, fiecare legatură având o pondere individuală. Stratul care produce valorile de ieșire se numește \textit{stratul de ieșire} și in exemplul prezentat este format din 3 neuroni, corespunzători fiecărei clasificări posibile. 
+
+
+% MLP reprezintă o rețea formată din aceste unități de calcul organizate pe straturi. Fiecare neuron din strat este legat de toți neuronii din stratul 
+% urmator. 
+
+
+
     
 
 
