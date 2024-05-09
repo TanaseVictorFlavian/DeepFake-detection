@@ -7,9 +7,9 @@ Rețelele neuronale stau la baza tuturor algoritmilor moderni de inteligență a
 \subsection{O scurtă istorie a rețelelor neuronale}
 
 \begin{itemize}
-    \item În lucrarea intitulată "A Logical Calculus of the Ideas Immanent in Nervous Activity"(1943) \cite{mcculloch1943logical} Warren McCulloch și Walter Pitts au fost primii care au teoretizat o implementare matematică simplificată a neuronului ca o poartă logică binară. Aceștia au demonstrat teoretic faptul că neuronii au capacitatea de a reprezenta orice funcție matematică.
+    \item În lucrarea intitulată „A Logical Calculus of the Ideas Immanent in Nervous Activity”(1943) \cite{mcculloch1943logical} Warren McCulloch și Walter Pitts au fost primii care au teoretizat o implementare matematică simplificată a neuronului ca o poartă logică binară. Aceștia au demonstrat teoretic faptul că neuronii au capacitatea de a reprezenta orice funcție matematică.
 
-    \item În 1958, este publicată lucrarea cercetătorului Frank Rosenblatt "The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain" \cite{rosenblatt1958perceptron}, în care acesta introduce conceptul de Perceptron, cel mai simplu model de rețea neuronală. 
+    \item În 1958, este publicată lucrarea cercetătorului Frank Rosenblatt „The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain” \cite{rosenblatt1958perceptron}, în care acesta introduce conceptul de Perceptron, cel mai simplu model de rețea neuronală. 
 
     \newpage
     
@@ -93,12 +93,63 @@ O funcție comună folosită drept \textit{step function} este funcția semn def
 
 În Figura~\ref{Figura 2.4} este prezentată o arhitectură de perceptron capabilă sa distingă între 3 clase. Datele de intrare, in cazul nostru $x1$, $x2$ reprezintă \textit{stratul de intrare}. Fiecare valoare din stratul de intrare este legată de toți neuronii din stratul urmator, fiecare legatură având o pondere individuală. Stratul care produce valorile de ieșire se numește \textit{stratul de ieșire} și in exemplul prezentat este format din 3 neuroni, corespunzători fiecărei clasificări posibile. 
 
+În ciuda optimismului declanșat de capabilitățile remarcabile la acea vreme a perceptronului, în 1969 Marvin Minsky și Seymour Papert \cite{minsky1969introduction} au demonstrat limitarea acestui model de a rezolva cateva probleme triviale, precum operația XOR. 
 
-% MLP reprezintă o rețea formată din aceste unități de calcul organizate pe straturi. Fiecare neuron din strat este legat de toți neuronii din stratul 
-% urmator. 
+\subsection{Multilayer Perceptron(MLP)}
 
+Soluția pentru limitările perceptronului a fost unificarea mai multor rețele de tip perceptron intr-o rețea mai mare, numita Multilayer Perceptron(MLP). Noua clasificare a straturilor este :
 
+\begin{itemize}
+    \item Stratul de input = stratul ce conține doar valorile de intrare
+    \item Straturile ascunse = straturile prin care se propaga informația. Se sitează între stratul de input și cel de output
+    \item Stratul de output = stratul care ne oferă rezultatul trecerii informației prin rețea
+\end{itemize}
+
+% \newpage
+
+\begin{figure}[h]
+         \centering 
+         \includegraphics[width=.6\linewidth]{images/MLP.png}
+         \captionsetup{font=footnotesize}
+         \caption{Arhitectura de tip MLP(Multilayer Perceptron) \cite{phdthesis}}
+\end{figure}
+    
+Arhitectura MLP este una de tip \textbf{feedforward}, cu alte cuvinte, informația se propagă prin rețea intr-o singură direcție, de la stânga la dreapta(dinspre input către output).
+
+\subsection{Backpropagarea}
+
+Algoritmul prin care o rețea neuronală învață se numește \textbf{backpropagation}. Acesta presupune trecerea prin rețea în repetate rânduri, în doi pași: unul inainte și unul înapoi. Dupa fiecare trecere parametrii(ponderile) sunt actualizați pentru a obține predicții mai bune.
+Algoritmul poate fi descris astfel:
+\begin{itemize}
+    \item Setul de date este spart în blocuri mai mici, cele mai întâlnite dimensiuni fiind de 32, 64 sau 128 de instanțe per bloc
+    \item Fiecare bloc este trecut prin rețea: se calculează output-ul primului strat, care este dat ca intrare pentru urmatorul strat, continuând în același fel până se ajunge la stratul de output. Acesta este pasul forward(\textit{forward pass}).
+    \item Se evaluează performanța predicțiilor cu ajutorul unei funcții numită \textbf{funcție de pierdere}. Scopul acestei funcții este să furnizeze un scor care să descrie cât de precise au fost predicțiile rețelei față de rezultatul dorit. 
+    \item Dupa calculul erorii, algoritmul calculează contribuția fiecărei ponderi din rețea la eroarea totală, cu ajutorul regulii fundamentale din analiza matematică: regula înlănțuirii(în engleză: \textit{chain rule}).
+    \item Contribuția la eroarea totală a unui parametru se numește \textbf{gradient}.Valoarea gradientului practic măsoară cât de mult influențează eroarea totală modificarea acelui parmetru.
+    \item În cele din urmă, algoritmul folosește gradienții calculați pentru optimizarea parametrilor cu ajutorul unui algoritm de optimizare.
+\end{itemize}
+\newpage
+\subsection{Algoritmul coborârii pe gradient(\textit{Gradient Descent})}
+
+Coborârea pe gradient este un algoritm iterativ de optimizare, folosit des în literatură, al cărui scop este de găsi minimul global al unei funcții. În cadrul rețelelor neuronale acesta este folosit pentru a optimiza parametrii rețelei astfel încat valoarea erorii totale să se apropie la fiecare iterație de minimul funcției de pierdere. Dupa calcularea gradienților, fiecare pondere se actualizeaza după formula: 
+\[
+    \scalebox{1.3}{$w_{\text new} = w - \eta \frac{\delta L}{\delta w}$}
+\]
+
+Unde: 
+
+\begin{itemize}
+    \item $w_{\text new}$ = noua valoare a ponderii
+    \item $\frac{\delta L}{\delta w}$ = gradientul 
+    \item $\eta$ = rata de învățare(hiperparametru ce controleaza cât de mult se modifică valorile ponderilor)
+\end{itemize}
+
+\begin{figure}[h]
+         \centering 
+         \includegraphics[width=.75\linewidth]{images/gradient-descent.png}
+         \captionsetup{font=footnotesize}
+         \caption{Vizualizare a algoritmului de coborârii pe gradient \cite{GD}}
+\end{figure}
 
     
-
 
