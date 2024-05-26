@@ -17,21 +17,26 @@
                 <img
                     src="{{ url_for('static', filename='uploads/' + uploaded_image) }}"
                     alt="Uploaded image"
-                    class="uploaded-image"/>
+                    class="uploaded-image"
+                    id="uploadedImage"/>
                 {% else %}
                 <input type="file" id="fileUpload" name="fileUpload" />
                 <label for="fileUpload"
                  class="upload-button"> Choose a file
                 </label>
                 {% endif %}
+
             </div>
-            <div class="toggle-switch">
+            {% if uploaded_image %}
+            <button id="runButton" class="run-button">APASA AICI PENTRU UN IPHONE15 GARANTAT</button>
+            {% endif %}
+            <!-- <div class="toggle-switch">
                 <label class="switch">
                     <input type="checkbox" id="toggle"/>
                     <span class="slider round"></span>
                 </label>
                 <span class="slider-text">Enable test-time augmentation(for videos only)</span>
-            </div>
+            </div> -->
         </div>
         {% if show_data %}
         <div class="results-container">
