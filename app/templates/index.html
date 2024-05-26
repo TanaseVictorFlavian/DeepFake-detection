@@ -13,10 +13,17 @@
         <div class="container">
             <h1 class="container-header">Deepfake detector</h1>
             <div class="upload-area">
+                {% if uploaded_image %}
+                <img
+                    src="{{ url_for('static', filename='uploads/' + uploaded_image) }}"
+                    alt="Uploaded image"
+                    class="uploaded-image"/>
+                {% else %}
                 <input type="file" id="fileUpload" name="fileUpload" />
-                <label for="fileUpload" class="upload-button"
-                    >Choose a file</label
-                >
+                <label for="fileUpload"
+                 class="upload-button"> Choose a file
+                </label>
+                {% endif %}
             </div>
             <div class="toggle-switch">
                 <label class="switch">

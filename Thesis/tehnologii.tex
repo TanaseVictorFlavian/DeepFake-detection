@@ -1,0 +1,81 @@
+\chapter{Tehnologii folosite}
+\label{Capitolul 4}
+Lucrarea constă în dezvoltarea unui model de inteligență artificială și punerea la dispoziție a unei interfețe web prin care utilizatorii îl pot folosi cu ușurință. Pentru crearea datasetului și a diverselor funcții ajutătoare ale aplicației s-a folosit limbajul \textbf{Python}, în timp ce pentru antrenarea, evaluarea și salvarea modelului s-a utilizat framework-ul \textbf{PyTorch}. Interfața web este dezvoltată folosind framework-ul \textbf{Flask}, ce permite crearea paginilor web în limbajul Python. În urmatoarele subcapitole vor fi descrise pe scurt, fiecare dintre aceste tehnologii. 
+
+\section{Pyhton}
+
+\href{https://pytorch.org/}{Python} este un limbaj de programare de nivel înalt, interpretat și dinamic, cunoscut pentru sintaxa sa simplă, care permite dezvoltatorilor să scrie cod eficient și ușor de întreținut. Creat de Guido van Rossum \cite{van1guido} și lansat pentru prima dată în 1991, Python a devenit unul dintre cele mai populare limbaje de programare datorită versatilității și comunității sale mari, care a creat o mulțime de biblioteci și framework-uri utile. 
+
+\subsection{Caracteristici cheie ale limbajului}
+
+O caracteristică cheie a acestui limbaj este portabilitatea sa. Codul sursă scris in limbajul Python poate fi rulat pe o varietate de sisteme de operare, inclusiv Windows, macOS, Linux, și chiar și pe dispozitive mobile. Acest lucru se datorează în mare măsură faptului că Python este un limbaj interpretat, care nu are nevoie de compilare înainte de a fi rulat.
+
+Python folosește un program numit interpretor, care citește codul Python și îl traduce în instrucțiuni pe care calculatorul le poate înțelege. Interpretorul Python este disponibil pentru o gamă largă de sisteme de operare, ceea ce înseamnă că programele Python scrise pe un sistem de operare pot fi rulate pe orice alt sistem de operare fără modificări semnificative.
+
+De asemenea, Python are o mulțime de biblioteci și cadre de lucru care sunt, de asemenea, portabile, ceea ce înseamnă că pot fi folosite pe orice sistem de operare pe care rulează Python. Acest lucru face ca Python să fie o alegere populară pentru dezvoltarea de aplicații multi-platform.
+
+\begin{figure}[ht]
+         \centering 
+         \includegraphics[width=0.65\linewidth]{images/interpreter.png}
+         \captionsetup{font=footnotesize}
+         \caption{Interpretorul de Pyhton\cite{interpreter}}
+\end{figure}
+
+Python este un limbaj de programare multiparadigmă, adică poate fi folosit pentru diverse stiluri de programare, ceea ce oferă developer-ilor flexibiliate pentru preferințele personale. 
+
+Unul dintre cele mai populare paradigme de programare în Python este programarea orientată pe obiecte (OOP), care permite crearea obiecte care conțin atât date, cât și funcții care lucrează cu aceste date. OOP este o alegere populară pentru dezvoltarea de aplicații complexe, unde este utilă organizarea codului într-un stil modular și reutilizarea acestuia. 
+
+O altă paradigmă populară în Python este programarea funcțională, care se concentrează pe scrierea de funcții care sunt independente una de cealaltă. Programarea funcțională poate fi utilă în situații în care este importantă corectitudinea și ușurința de testare a codului.
+
+În plus față de acestea, Python mai suportă programarea procedurală, programarea concurrentă, și chiar programarea logică. 
+
+\subsection{Limitări ale limbajului}
+
+Deși Python este un limbaj de programare extrem de popular și versatil, nu este lipsit de limitări. Cele mai semnificative dintre acestea sunt:
+
+\subsubsection{Performanța}
+
+Python folosește un interpretor, ceea ce înseamnă că, în general, rulează mai lent decât limbajele compilate precum C sau C++ . Aceasta se datorează faptului că Python este un limbaj dinamic, iar interpretarea codului la rulare adaugă un overhead semnificativ. 
+
+Python utilizează un mecanism numit \textbf{GIL(Global Interpreter Lock)} pentru a gestiona execuția thread-urilor. GIL permite doar unui singur thread să execute cod Python la un moment dat, ceea ce limitează performanța în aplicațiile multi-threaded și afectează negativ utilizarea eficientă a procesoarelor multi-core.
+
+De asemnea, este lent în sarcinile de procesare numerică intensivă. Această slăbiciune poate fi diminuată prin utilizarea bibliotecilor optimizate precum NumPy, care implementează calculele mult mai eficient.
+
+\subsubsection{Consumul de Memorie}
+
+Python consumă mai multă memorie comparativ cu limbajele mai puțin abstracte, cum ar fi C și C++. Obiectele Python sunt mai voluminoase din cauza metadatelor asociate, ceea ce poate conduce la o utilizare ineficientă a memoriei.
+
+Gestionarea memoriei se face automat prin utilizarea unui „garbage collector” pentru gestionarea automată a memoriei, care poate introduce un overhead suplimentar și poate duce la probleme de performanță în aplicații cu cerințe mari de memorie.
+
+În plus, flexibilitatea oferită de structurile de date dinamice, cum ar fi listele și dicționarele, vine cu un cost suplimentar în termeni de consum de memorie.
+
+\subsubsection{Distribuirea aplicațiilor}
+
+Distribuirea aplicațiilor Python poate fi mai complexă comparativ cu limbajele compilate. Deși există instrumente precum PyInstaller sau cx-freeze care pot crea executabile pentru aplicațiile scrie în Python, acestea nu sunt la fel de simple și directe ca procedeele folosite pentru alte limbaje de programare. 
+
+Aplicațiile Python adesea depind de un număr mare de biblioteci externe, care trebuie gestionate și distribuite împreună cu aplicația. O soluție pentru această problemă este Docker, ce poate rezolva problema gestionării și distribuirii bibliotecilor externe pentru aplicațiile Python prin containerizarea întregului mediu de rulare al aplicației. Docker permite pachetelor și dependențelor necesare să fie incluse într-un container ușor de distribuit, asigurând consistența și funcționalitatea aplicației indiferent de mediul în care este rulată.
+
+O altă provocare în aplicațiile dezvoltate în python este compatibilitatea bibliotecilor. De multe ori există probleme legate de compatibilitatea între versiuni diferite ale limbajului și ale bibliotecilor, ceea ce poate complica procesul de distribuire a aplicațiilor. 
+
+
+\section{Pytorch}
+
+\href{https://pytorch.org/}{PyTorch} este o bibliotecă open-source de învățare automată dezvoltată de Facebook's AI Research lab (FAIR). Lansată în 2016, PyTorch a câștigat rapid popularitate datorită flexibilității și ușurinței sale de utilizare, devenind unul dintre principalele instrumente pentru cercetare și dezvoltare în domeniul inteligenței artificiale.
+
+Ceea ce face framework-urile de învățare automată diferite de altele este faptul că facilitează utilizarea plăcilor grafice pentru comuputații paralele mult mai eficiente. 
+
+Unul dintre principalele avantaje ale PyTorch este manipularea dinamică a grafurilor de calcul, ceea ce permite cercetătorilor să ajusteze arhitecturile de rețele neurale în timp real, fără a necesita recompilare. Această caracteristică este esențială pentru experimentare și prototipare rapidă, accelerând munca în proiectele de inteligență artificială. Datorită acestor calități, PyTorch a devenit extrem de popular în mediile academice și industriale, fiind folosit pe larg pentru cercetare și dezvoltarea aplicațiilor comerciale de IA.
+
+\subsection{Torchvision}
+
+\href{https://pytorch.org/vision/stable/index.html}{Torchvision} este un pachet din ecosistemul PyTorch care oferă acces la seturi de date populare, modele pre-antrenate și transformări pentru imagini, fiind special conceput pentru vederea artificială. 
+
+Acesta facilitează implementarea rapidă a algoritmilor de computer vision, reducând semnificativ timpul necesar pentru preprocesarea datelor și pentru implementarea de noi experimente. Pachetul include un set divers de instrumente pentru detectarea obiectelor, segmentarea semantică și clasificarea imaginilor, împreună cu funcționalități extinse pentru îmbunătățirea și augmentarea imaginilor. 
+
+\section{Flask}
+
+\href{https://flask.palletsprojects.com/en/3.0.x/}{Flask} este un micro-framework web pentru Python, cunoscut pentru simplitatea sa și pentru capacitatea de a construi rapid aplicații web. A fost creat de Armin Ronacher și este bazat pe biblioteca Werkzeug WSGI și pe Jinja2 pentru template-uri. Flask oferă un nucleu minimal care poate fi extins cu ajutorul altor biblioteci, ceea ce îl face extrem de flexibil și adaptabil la diverse cerințe de dezvoltare web.
+
+Unul dintre principalele avantaje ale Flask este ușurința cu care poate fi învățat și implementat, făcându-l ideal pentru proiecte de dimensiuni mici și mijlocii, precum și pentru prototipuri rapide ale aplicațiilor web. Flask vine cu un server de dezvoltare și un debugger încorporate, facilitând testarea și depanarea aplicațiilor în timpul dezvoltării. 
+
+De asemenea, suportă extensii care adaugă funcționalități precum, autentificare sau manipularea sesiunilor, permițând dezvoltatorilor să creeze aplicații complexe cu efort minim. 

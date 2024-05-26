@@ -17,7 +17,7 @@ document
         formData.append("file", this.files[0]);
         formData.append("aug", checkbox.checked);
 
-        fetch("http://127.0.0.1:5000/", {
+        fetch("http://127.0.0.1:5000/upload_image", {
             method: "POST",
             body: formData,
         })

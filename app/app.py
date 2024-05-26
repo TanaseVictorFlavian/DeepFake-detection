@@ -70,6 +70,27 @@ def index():
     return render_template('index.html', show_data = False)
 
 
+@app.route('/upload_image', methods=['GET', 'POST'])
+def upload_image():
+    if request.method == 'POST':
+
+        if 'file' not in request.files:
+            return render_template('index.html')
+        file = request.files['file']
+
+        if file.filename == '':
+            return render_template('index.html')
+
+        allowed, file_format = is_allowed(file.filename)
+
+        if file and allowed:
+            filename = secure_filename(file.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(file_path)
+
+        return render_template('index.html', uploaded_image = filename)
+
+
 if __name__ == '__main__':
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
