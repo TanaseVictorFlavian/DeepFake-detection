@@ -3,7 +3,7 @@ body, html {
     width: 100vw;
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #f0f0f0;
+    background: #91c8e47b;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -11,34 +11,49 @@ body, html {
     overflow: hidden;
 }
 .container-title{
-    font: 50px "Margarine", sans-serif;
+    font-family: Arial, sans-serif;
     margin-bottom: 20px;
 }
 
+
+header h1 {
+  font-size: 50px;
+  font-weight: 600;
+  text-align: center;
+  background: linear-gradient(to right, #003366, #808080);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+header {
+ margin-left: 4rem;
+ margin-right: 4rem;
+ width: 50%;
+
+}
 .container {
-    background: #d0e0ff;
-    padding: 20px;
-    border-radius: 8px;
+    padding: 5px;
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 60%;
+    width: 50%;
+    height: 50%;
     flex-direction: column;
 }
 
 .upload-area {
-    border: 2px dashed #aaa;
-    border-radius: 4px;
+    border: #aaa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     padding: 20px;
     margin-bottom: 20px;
-    height: 65%;
+    height: 50%;
     align-items: center;
     justify-content: center;
     display: flex;
-    width: 75%;
-    background : #f0f0f0;
+    width: 100%;
+    background : #F6F4EB;
 }
 
 .uploaded-image {
@@ -76,7 +91,7 @@ body, html {
   margin: auto;
   border: 10px solid #ccc;
   border-radius: 100%;
-  border-top: 10px solid #d0e0ff;
+  border-top: 10px solid #749BC2;
   width: 50px;
   height: 50px;
   animation: spinner 2s linear infinite;
@@ -111,31 +126,50 @@ body, html {
   }
 }
 .upload-button {
-    background: #d0e0ff;
+    background: #91c8e47b;
     color: #000000;
     border-radius: 50px;
     padding: 0.9rem 3rem;
-    font: 30px "Margarine", sans-serif;
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
     outline: none;
     cursor: pointer;
     position: relative;
     transition: 0.2s ease-in-out;
-    letter-spacing: 2px;
-    
 }
-/* .upload-area{
-    display: flex;
-	position: relative;
-	width: 75%;
-	height: 75px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-    border: 2px dashed #aaa;
-    border-radius: 8px;
-} */
 
+.run-button{
+    background: #749BC2;
+    color: #000000;
+    border-radius: 30px;
+    border-color: transparent;
+    padding: 0.9rem 3rem;
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    transition: 0.1s ease-in-out;
 
+}
+.refresh-button{
+    background: #749BC2;
+    color: #000000;
+    border-radius: 30px;
+    border-color: transparent;
+    padding: 0.9rem 3rem;
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    transition: 0.1s ease-in-out;
+}
 /* Hidden file input */
 input[type="file"] {
     display: none;

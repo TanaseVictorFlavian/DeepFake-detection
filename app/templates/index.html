@@ -10,33 +10,51 @@
         <title>Flask app</title>
     </head>
     <body>
+        <header>
+            <h1>Deeptector: the AI tool that exposes deepfake forgery</h1>
+        </header>
         <div class="container">
-            <h1 class="container-header">Deepfake detector</h1>
             <div class="upload-area">
+               
                 {% if uploaded_image %}
-                <img
-                    src="{{ url_for('static', filename='uploads/' + uploaded_image) }}"
-                    alt="Uploaded image"
-                    class="uploaded-image"
-                    id="uploadedImage"/>
-                {% else %}
-                <input type="file" id="fileUpload" name="fileUpload" />
-                <label for="fileUpload"
-                 class="upload-button"> Choose a file
-                </label>
-                {% endif %}
 
+                    {% if is_video %}
+                        <video width="320" height="240" controls>
+                            <source src="{{ url_for('static', filename='uploads/' + uploaded_image) }}" type="video/mp4" id="uploadedVideo">
+                            Your browser does not support the video tag.
+                        </video>
+                   
+                    {% else %}
+                        <img
+                            src="{{ url_for('static', filename='uploads/' + uploaded_image) }}"
+                            alt="Uploaded image"
+                            class="uploaded-image"
+                            id="uploadedImage"/>
+                    {% endif %}
+               
+                {% else %}
+                
+                    <input type="file" id="fileUpload" name="fileUpload" accept="image/*" />
+                    <label for="fileUpload"
+                    class="upload-button"> Choose a file
+                    </label>
+                {% endif %}
             </div>
+           
             {% if uploaded_image %}
-            <button id="runButton" class="run-button">APASA AICI PENTRU UN IPHONE15 GARANTAT</button>
+            <button id="runButton" class="run-button" onclick="runButtonHandler()">Check for deepfake</button>
             {% endif %}
-            <!-- <div class="toggle-switch">
+           
+            {% if is_video %}
+            <div class="toggle-switch">
                 <label class="switch">
                     <input type="checkbox" id="toggle"/>
                     <span class="slider round"></span>
                 </label>
-                <span class="slider-text">Enable test-time augmentation(for videos only)</span>
-            </div> -->
+                <span class="slider-text">Enable test-time augmentation</span>
+            </div>
+            {% endif %}
+      
         </div>
         {% if show_data %}
         <div class="results-container">
@@ -54,6 +72,8 @@
             <div class="loader"></div>
         </div>
         {% endif %}
+        <button id="refreshButton" class="refresh-button" onclick="refreshPageHard()">Refresh Page</button>
         <script src="{{ url_for('static', filename='upload-handler.js') }}"></script>
+        
     </body>
 </html>

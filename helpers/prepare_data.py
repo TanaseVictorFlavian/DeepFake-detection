@@ -16,7 +16,7 @@ def prepare_video(path, img_transforms, tta_enabled) -> List[torch.tensor]:
     """
 
     image_tensors = []
-    output_path = "./uploads/frames/"
+    output_path = f"{path}/frames/"
     if tta_enabled:
         print("TTA ENABLED")
         # Get a list of frames at the beginning of the video
@@ -45,7 +45,8 @@ def prepare_image(path, img_transforms):
     returns a single image transformed to tensor 
     ready to be passed through the model
     """
-    image = Image.open(path)
+    image = Image.open(path).convert('RGB')
+    print(f"Image type: {type(image)}, Image shape: {image.size}")
     return [img_transforms(image).unsqueeze(0)]
 
 def tta(data, img_transforms) -> list:

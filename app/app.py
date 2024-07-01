@@ -32,8 +32,8 @@ def index():
     if request.method == 'POST':
         toggle_button = request.form.get('aug', False)
         tta_enabled = True if toggle_button == 'true' else False
-
-        file_path = os.path.join("./app", request.form.get('uploaded_image'))
+        filename = request.form.get('file_path').split('/')[-1]
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file_format = file_path.rsplit('.', 1)[1].lower()
 
         device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -41,7 +41,7 @@ def index():
         model, transforms = get_model(
             model_name="effnet_b0_pretrained",
         )
-
+        
         prepared_data = prepare_video(UPLOAD_FOLDER, transforms, tta_enabled) if file_format in VIDEO_FORMATS \
             else prepare_image(file_path, transforms)
 
@@ -78,7 +78,7 @@ def upload_image():
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(file_path)
 
-        return render_template('index.html', uploaded_image=filename)
+        return render_template('index.html', uploaded_image=filename, is_video=(file_format in VIDEO_FORMATS))
 
 
 if __name__ == '__main__':

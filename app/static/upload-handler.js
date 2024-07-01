@@ -1,8 +1,9 @@
 document
     .getElementById("fileUpload")
     .addEventListener("change", function (event) {
-        event.preventDefault();
+        console.log("File selected.");
         var formData = new FormData();
+
         formData.append("file", this.files[0]);
 
         fetch("http://127.0.0.1:5000/upload_image", {
@@ -25,10 +26,7 @@ document
             });
     });
 
-
-document
-.getElementById("runButton")
-.addEventListener("click", function (event) {
+function runButtonHandler() {
     var checkbox = document.getElementById("toggle");
     if (checkbox && checkbox.checked) {
         console.log("Checkbox is checked.");
@@ -38,12 +36,15 @@ document
     }
 
     document.getElementById("loader-container").style.display = "block";
-    event.preventDefault();
     var formData = new FormData();
-    formData.append("aug", checkbox.checked);
+    formData.append("aug", checkbox ? checkbox.checked : false);
+    
 
-    const image = document.getElementById("uploadedImage");
-    formData.append("file_path", image.src);
+    let uploadedFile = document.getElementById("uploadedImage");
+    
+    if (!uploadedFile) uploadedFile = document.getElementById("uploadedVideo");
+
+    formData.append("file_path", uploadedFile.src);
     fetch("http://127.0.0.1:5000/", {
         method: "POST",
         body: formData,
@@ -61,4 +62,8 @@ document
         .catch((error) => {
             console.error("Error:", error);
         });
-});
+}
+
+function refreshPageHard() {
+    location.reload(true);
+}
